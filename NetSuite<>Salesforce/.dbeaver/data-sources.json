@@ -1,0 +1,127 @@
+{
+	"folders": {},
+	"connections": {
+		"snowflake_jdbc-1874877f659-5782088944c64fae": {
+			"provider": "snowflake",
+			"driver": "snowflake_jdbc",
+			"name": "affirmuseast.us-east-1.snowflakecomputing.com",
+			"save-password": true,
+			"configuration": {
+				"host": "affirmuseast.us-east-1.snowflakecomputing.com",
+				"port": "443",
+				"server": "SHARED",
+				"database": "PROD__US",
+				"url": "jdbc:snowflake://affirmuseast.us-east-1.snowflakecomputing.com:443/?db\u003dPROD__US\u0026warehouse\u003dSHARED",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"auth-model": "snowflake_snowflake",
+				"auth-properties": {
+					"authenticator": "externalbrowser"
+				}
+			}
+		}
+	},
+	"virtual-models": {
+		"snowflake_jdbc-1874877f659-5782088944c64fae": {
+			"PROD__WORKSPACE__US": {
+				"SCRATCH_T_ACCOUNTING": {
+					":FINSYS_SYSTEMS": {
+						"constraints": {
+							"VIRTUAL_PK": {
+								"type": "vpk",
+								"attributes": [
+									"SYSTEM",
+									"SUBSIDIARY"
+								]
+							}
+						}
+					}
+				}
+			},
+			"PROD__US": {
+				"LEDGER": {
+					":LEDGEREVENT": {
+						"foreign-keys": [
+							{
+								"entity": "database://snowflake_jdbc-1874877f659-5782088944c64fae/PROD__US/LEDGER/org.jkiss.dbeaver.ext.generic.model.GenericTable/LEDGERENTRY",
+								"constraint": "LEDGERENTRY_VK",
+								"attributes": {
+									"PRODUCT_ARI": "PRODUCT_ARI"
+								}
+							}
+						]
+					},
+					":LEDGERENTRY": {
+						"constraints": {
+							"LEDGERENTRY_VK": {
+								"type": "vpk",
+								"attributes": [
+									"PRODUCT_ARI"
+								]
+							}
+						}
+					}
+				},
+				"MERCHANTS": {
+					":MERCHANT": {
+						"foreign-keys": [
+							{
+								"entity": "database://snowflake_jdbc-1874877f659-5782088944c64fae/SALESFORCE/RAW_TESTING/org.jkiss.dbeaver.ext.generic.model.GenericTable/ACCOUNT",
+								"constraint": "ACCOUNT_VK",
+								"attributes": {
+									"ARI": "MERCHANT_ARI__C"
+								}
+							},
+							{
+								"entity": "database://snowflake_jdbc-1874877f659-5782088944c64fae/FIVETRAN_DATABASE/NETSUITE_SUITEANALYTICS/org.jkiss.dbeaver.ext.generic.model.GenericTable/CUSTOMER",
+								"constraint": "CUSTOMER_VK",
+								"attributes": {
+									"NAME": "COMPANYNAME"
+								}
+							}
+						]
+					}
+				}
+			},
+			"SALESFORCE": {
+				"RAW_TESTING": {
+					":ACCOUNT": {
+						"constraints": {
+							"ACCOUNT_VK": {
+								"type": "vpk",
+								"attributes": [
+									"MERCHANT_ARI__C"
+								]
+							}
+						}
+					}
+				}
+			},
+			"FIVETRAN_DATABASE": {
+				"NETSUITE_SUITEANALYTICS": {
+					":CUSTOMER": {
+						"constraints": {
+							"CUSTOMER_VK": {
+								"type": "vpk",
+								"attributes": [
+									"COMPANYNAME"
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
